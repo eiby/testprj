@@ -7,7 +7,7 @@ var devices = [];
 var hqtcpserver = net.createServer({allowHalfOpen: true}, function (c) {
     //c.write("welcome login server!");
     c.on('connect', function(){
-        //console.log("device connected (" + c.remoteAddress + ":" + c.remotePort + ")");
+        console.log("device connected (" + c.remoteAddress + ":" + c.remotePort + ")");
     });
     // 监听socket关闭事件
     c.on('end', function() {
@@ -34,7 +34,9 @@ var hqtcpserver = net.createServer({allowHalfOpen: true}, function (c) {
         console.log("deviceID: " + deviceID + ", gpsData: " + gpsData);
         devices["mdt_" + deviceID] = c;
 
-        db.saveDataLog(deviceID, content, "localhost");
+        db.saveDataLog(deviceID, content, "localhost", function(err){
+
+        });
     });
 });
 

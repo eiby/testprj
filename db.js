@@ -1,6 +1,8 @@
 //connect to DB
 var mongoose = require('mongoose');
-var db = mongoose.connect('mongodb://182.254.214.210:20099/baba, mongodb://182.254.215.229:20099/baba, mongodb://182.254.215.35:20099/baba', {read_secondary:true}); //业务服务器
+var config = require("./config.js");
+var dbPath = config.mongo.url;
+var db = mongoose.connect(dbPath, {read_secondary:true});
 
 // Define Model
 var Schema = mongoose.Schema;
@@ -15,7 +17,7 @@ var data_log = new Schema({
 
 var m_data_log = mongoose.model('data_log', data_log);
 
-exports.saveDataLog = function (deviceID, content, server_ip){
+exports.saveDataLog = function (deviceID, content, server_ip, callback){
     var i_data_logs = new m_data_log();
     i_data_logs.device_id = deviceID;
     i_data_logs.content = content;
@@ -23,9 +25,16 @@ exports.saveDataLog = function (deviceID, content, server_ip){
     i_data_logs.rcv_time = new Date().toLocaleString();
     i_data_logs.save(function(err){
         if(err){
-            console.log(err);
+            callback(err);
         }else{
+            callback(null, i_data_logs);
             console.log('Data Log Saved!');
         }
+    });
+};
+
+exports.getLastDataLog = function(callback){
+    m_data_log.findOne({}, {}, {"sort": {"rcv_time": -1}}, function(err, doc){
+        callback(err, doc);
     });
 };
