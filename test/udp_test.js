@@ -18,6 +18,7 @@ this.TestForUDP = {
                     test.ifError(err, 'get data log fail.');
                     test.equal(device_id, doc.device_id);
                     test.equal(content, doc.content);
+                    setTimeout(process.exit, 5000);
                     test.done();
                 });
             });
