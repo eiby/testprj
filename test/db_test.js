@@ -12,6 +12,8 @@ this.TestForDB = {
             test.equal(device_id, doc.device_id);
             test.equal(content, doc.content);
             test.done();
+            console.log("");
         });
     }
 };
+
