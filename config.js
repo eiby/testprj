@@ -15,7 +15,7 @@ var envConfig = {
             port: 9966
         },
         mongo: {
-            url: 'mongodb://localhost:27017/baba'
+            url: 'mongodb://baba:baba@localhost:27017/baba'
         }
     },
     production: {
